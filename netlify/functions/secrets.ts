@@ -1,11 +1,11 @@
-import { withSecrets } from "@netlify/functions"
+import { withSecrets } from "@sgrove/netlify-functions";
 
 export const handler = withSecrets(async (event, { secrets }) => {
-return {
+  return {
     statusCode: 200,
     body: JSON.stringify(secrets),
     headers: {
-        "Content-Type": "application/json",
+      "Content-Type": "application/json",
     },
-}
-})
+  };
+});

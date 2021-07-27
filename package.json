@@ -10,6 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@netlify/functions": "^0.7.3-handle-secrets.1"
+    "@sgrove/netlify-functions": "^0.7.3-handle-secrets.2"
   }
 }
