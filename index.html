@@ -1,0 +1,52 @@
+<h1>Authlify Secrets Test</h1>
+
+<h2>Setup:</h2>
+<ol>
+  <li>
+    Be sure to enable
+    <a href="https://authlify-dev.netlify.app/" target="_blank">Authlify</a> for
+    <code class="hostname">localhost</code>
+  </li>
+  <li>Trigger a new deploy (with the cache cleared)</li>
+</ol>
+
+<h2>Usage</h2>
+<ul>
+  <li>
+    Hit the secrets endpoint:
+    <code
+      >curl "https://<span class="hostname">localhost</span
+      >.netlify.app/.netlify/functions/secrets"</code
+    >
+  </li>
+  <li>
+    Hit the conditional secrets endpoint to see the current time overhead to
+    fetch the secrets:
+    <code
+      >curl "https://<span class="hostname">localhost</span
+      >.netlify.app/.netlify/functions/conditionalSecrets?skipSecrets=true"</code
+    >
+  </li>
+  <li>
+    Hit the "Add Issue Comment" endpoint to leave a comment on the
+    <a href="https://github.com/sgrove/blog/issues/66">test issue</a>:
+    <code
+      >curl "https://<span class="hostname">localhost</span
+      >.netlify.app/.netlify/functions/addIssueComment?comment=Hi+there"</code
+    >
+  </li>
+</ul>
+
+<script type="application/javascript">
+  function getHostname() {
+    return window.location.hostname.split(".netlify.app")[0];
+  }
+
+  // Get all elements with "hostname" class
+  var hostnameElements = document.getElementsByClassName("hostname");
+
+  // Loop through all elements with "hostname" class and set their innerHTML to the current hostname
+  for (var i = 0; i < hostnameElements.length; i++) {
+    hostnameElements[i].innerHTML = getHostname();
+  }
+</script>
