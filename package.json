@@ -10,9 +10,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@octokit/core": "^3.5.1",
+    "@octokit/plugin-rest-endpoint-methods": "^5.5.2",
     "@sgrove/netlify-functions": "^0.7.3-handle-secrets.3"
   },
   "devDependencies": {
+    "@octokit/openapi-types": "^9.2.0",
     "@types/node": "^16.4.8"
   }
 }

@@ -1,5 +1,4 @@
 import { withSecrets } from "@sgrove/netlify-functions";
-const process = require("process");
 
 export const handler = withSecrets(async (event, { secrets }) => {
   return {
