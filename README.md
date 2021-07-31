@@ -3,6 +3,8 @@
 
 2. Go to https://authlify-dev.netlify.app/ to enable the addon
 
+3. After enabling Authlify for a site, be sure to force a new deploy with `clear cache and deploy site` (this will be done automatically with an update on Sunday)
+
 After it's deployed, you can hit three endpoints:
 
 1. "/.netlify/functions/secrets" - see all enabled auths + secrets (sanitized so they're not exposed)
