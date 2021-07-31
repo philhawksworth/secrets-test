@@ -1,4 +1,7 @@
-Deploy this repo to Netlify, then go to https://authlify-dev.netlify.app/ to enable the addon
+1. Deploy this repo to Netlify using 
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/sgrove/secrets-test)
+
+2. Go to https://authlify-dev.netlify.app/ to enable the addon
 
 After it's deployed, you can hit three endpoints:
 
