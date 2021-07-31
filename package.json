@@ -11,5 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "@sgrove/netlify-functions": "^0.7.3-handle-secrets.2"
+  },
+  "devDependencies": {
+    "@types/node": "^16.4.8"
   }
 }
