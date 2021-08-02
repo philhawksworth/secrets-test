@@ -2,6 +2,8 @@ import { withSecrets } from "@sgrove/netlify-functions";
 import { Octokit } from "@octokit/core";
 import { restEndpointMethods } from "@octokit/plugin-rest-endpoint-methods";
 
+const sufficientScopes = ["public_repo", "repo"];
+
 export const handler = withSecrets(async (event, { secrets }) => {
   const issueComment = (
     event.queryStringParameters.comment || ""
@@ -31,6 +33,27 @@ export const handler = withSecrets(async (event, { secrets }) => {
     };
   }
 
+  const tokenHasScope = secrets.gitHub.grantedScopes?.some((grantedScope) =>
+    sufficientScopes.includes(grantedScope.scope)
+  );
+
+  // Libraries, applications, and packages can metaprogram checks at run time to make the DX
+  // buttery smooth for the end developers. Notice here how we tell the developer exactly what's missing.
+  // With just a bit more work, we could even link them directly into the dashboard to fix this in two clicks.
+  if (!tokenHasScope) {
+    return {
+      statusCode: 412,
+      body: JSON.stringify({
+        error: `You have enabled GitHub auth in your Authlify dashboard, but it's missing a required scope. The auth must have one (or both) of the scopes: ${sufficientScopes.join(
+          ", "
+        )}`,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+  }
+
   const MyOctokit = Octokit.plugin(restEndpointMethods);
   const octokit = new MyOctokit({ auth: secrets.gitHub?.bearerToken });
 
@@ -43,7 +66,7 @@ export const handler = withSecrets(async (event, { secrets }) => {
 
   return {
     statusCode: 200,
-    body: JSON.stringify(result.data),
+    body: JSON.stringify(result),
     headers: {
       "Content-Type": "application/json",
     },

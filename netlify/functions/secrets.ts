@@ -1,37 +1,14 @@
 import { NetlifySecrets, withSecrets } from "@sgrove/netlify-functions";
-
-// This function replaces all but the last four digits of a string with zeroes
-const sanitizeToken = (str: string, length = 16): string => {
-  const len = str.length;
-  const displayed = len > 4 ? str.substr(len - 4, len) : str;
-
-  const padLength = length - displayed.length;
-  return displayed.padStart(padLength, "*");
-};
+import { formatSecret } from "../../lib";
 
 export const handler = withSecrets(async (event, { secrets }) => {
-  const { gitHub, salesforce, spotify } = secrets;
-
+  console.log("All secrets JSON: ", JSON.stringify(secrets, null, 2));
   // Sanitize the secrets before showing them to the user
   const sanitizedSecrets: NetlifySecrets = {
-    gitHub: {
-      ...gitHub,
-      bearerToken: gitHub?.bearerToken
-        ? sanitizeToken(gitHub.bearerToken)
-        : null,
-    },
-    salesforce: {
-      ...salesforce,
-      bearerToken: salesforce?.bearerToken
-        ? sanitizeToken(salesforce.bearerToken)
-        : null,
-    },
-    spotify: {
-      ...spotify,
-      bearerToken: spotify?.bearerToken
-        ? sanitizeToken(spotify.bearerToken)
-        : null,
-    },
+    gitHub: formatSecret(secrets.gitHub),
+    salesforce: formatSecret(secrets.salesforce),
+    spotify: formatSecret(secrets.spotify),
+    stripe: formatSecret(secrets.stripe),
   };
 
   return {
