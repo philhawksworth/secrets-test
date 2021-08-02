@@ -5,7 +5,7 @@
 
 3. After enabling Authlify for a site, be sure to force a new deploy with `clear cache and deploy site` (this will be done automatically with an update on Sunday)
 
-After it's deployed, you can hit three endpoints:
+After it's deployed, you can hit three endpoints (there are better links to copy/paste curl commands if you go to your deployed site):
 
 1. "/.netlify/functions/secrets" - see all enabled auths + secrets (sanitized so they're not exposed)
 1. "/.netlify/functions/conditionalSecrets?skipSecrets=true" - an endpoint that can optionally retrieve secrets, useful to see the overhead of the current implementation
