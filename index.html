@@ -7,7 +7,14 @@
     <a href="https://authlify-dev.netlify.app/" target="_blank">Authlify</a> for
     <code class="hostname">localhost</code>
   </li>
-  <li><a id="deployLink" href="https://app.netlify.com/" target="_blank">Trigger a new deploy</a> (with the cache cleared) so the new env var takes effect</li>
+  <li>
+    This will trigger a new deploy (<a
+      id="deployLink"
+      href="https://app.netlify.com/"
+      target="_blank"
+      >you can check here</a
+    >) so the new env var takes effect
+  </li>
 </ol>
 
 <h2>Usage</h2>
@@ -50,8 +57,7 @@
     hostnameElements[i].innerHTML = getHostname();
   }
 
-  const deployUrl = `https://app.netlify.com/sites/${getHostname()}/deploys?filter=main`
+  const deployUrl = `https://app.netlify.com/sites/${getHostname()}/deploys?filter=main`;
 
   document.getElementById("deployLink").href = deployUrl;
-
 </script>
