@@ -1,13 +1,13 @@
-import { getSecrets, NetlifySecrets } from "@sgrove/netlify-functions";
+import { getSecrets, Handler, NetlifySecrets } from "@sgrove/netlify-functions";
 import { formatSecret } from "../../lib";
 
-export const handler = async (event) => {
+export const handler: Handler = async (event) => {
   const skipSecrets = event.queryStringParameters.skipSecrets === "true";
 
   let secrets: NetlifySecrets = {};
 
   if (!skipSecrets) {
-    secrets = await getSecrets();
+    secrets = await getSecrets(event);
 
     // Sanitize the secrets before showing them to the user
     secrets = {
