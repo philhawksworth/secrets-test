@@ -90,8 +90,8 @@ export default {
 
       if (appOperationsDoc.trim().length === 0) {
         appOperationsDoc = `query PlaceholderQuery {
-    __typename
-  }`
+  __typename
+}`
         parsedDoc = parse(appOperationsDoc)
       }
 
