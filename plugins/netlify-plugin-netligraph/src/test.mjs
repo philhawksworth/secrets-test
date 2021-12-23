@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
-import { fetchLiveQueries, getEnabledServices, fetchOneGraphSchema, generateFunctionsFile, getAuthToken, getAppId } from "./netligraph.mjs"
+import { fetchLiveQueries, fetchEnabledServices, fetchOneGraphSchema, generateFunctionsFile, getAuthToken, getAppId } from "./netligraph.mjs"
 
 const run = async () => {
     const appId = getAppId()
-    const enabledServices = getEnabledServices()
+    const enabledServices = fetchEnabledServices()
 
     const resultPromise = fetchLiveQueries(getAuthToken(), appId, null)
     const schemaPromise = fetchOneGraphSchema(appId, enabledServices)

@@ -1,7 +1,7 @@
 // This is the main file for the Netlify Build plugin netligraph.
 // Please read the comments to learn more about the Netlify Build plugin syntax.
 // Find more information in the Netlify documentation.
-import { extractFunctionsFromOperationDoc, fetchOneGraphSchema, generateFunctionsFile, getAuthToken, getEnabledServices, readAndParseGraphQLOperationsSourceFile, readGraphQLOperationsSourceFile } from "./netligraph.mjs"
+import { extractFunctionsFromOperationDoc, fetchOneGraphSchema, generateFunctionsFile, fetchEnabledServices, readAndParseGraphQLOperationsSourceFile, readGraphQLOperationsSourceFile } from "./netligraph.mjs"
 import fs from "fs"
 
 /* eslint-disable no-unused-vars */
@@ -79,7 +79,7 @@ export default {
       const netligraphPath = `${process.cwd()}/netlify`;
       const appId = SITE_ID
       const authToken = NETLIFY_API_TOKEN
-      const enabledServicesInfo = await getEnabledServices(authToken, appId)
+      const enabledServicesInfo = await fetchEnabledServices(authToken, appId)
       const enabledServices = enabledServicesInfo.map(service => service.service)
       const schema = await fetchOneGraphSchema(appId, enabledServices)
 
