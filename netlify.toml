@@ -1,2 +1,6 @@
 [dev]
   autoLaunch = false
+
+# Configuration for a local plugin
+[[plugins]]
+package = "/plugins/netlify-plugin-netligraph"
