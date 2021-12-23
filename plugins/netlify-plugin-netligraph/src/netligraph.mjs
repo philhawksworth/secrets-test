@@ -11,7 +11,8 @@ import {
 } from './lib/graphqlHelpers.mjs'
 import { buildClientSchema, parse, print } from 'graphql'
 import Prettier from 'prettier'
-import Process from 'process'
+
+const ONEDASH_APP_ID = '0b066ba6-ed39-4db8-a497-ba0be34d5b2a'
 
 export default function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1)
@@ -256,10 +257,10 @@ export const upsertAppForSite = async (
   nfToken,
   siteId
 ) => {
-  const result = await fetchOneGraph(nfToken, siteId, operationsDoc, 'UpsertAppForSiteMutation',
+  const result = await fetchOneGraph(nfToken, ONEDASH_APP_ID, operationsDoc, 'UpsertAppForSiteMutation',
     {
       nfToken: nfToken,
-      appId: siteId,
+      siteId: siteId,
     },
   );
 
