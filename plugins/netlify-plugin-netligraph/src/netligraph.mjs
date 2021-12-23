@@ -208,6 +208,34 @@ query AppSchemaQuery(
       }
     }
   }
+}
+
+mutation UpsertAppForSiteMutation(
+  $nfToken: String!
+  $siteId: String!
+) {
+  oneGraph(
+    auths: { netlifyAuth: { oauthToken: $nfToken } }
+  ) {
+    upsertAppForNetlifySite(
+      input: { netlifySiteId: $siteId }
+    ) {
+      org {
+        id
+        name
+      }
+      app {
+        id
+        name
+        corsOrigins
+        customCorsOrigins {
+          friendlyServiceName
+          displayName
+          encodedValue
+        }
+      }
+    }
+  }
 }`
 
 export const fetchAppSchema = async (
@@ -224,14 +252,23 @@ export const fetchAppSchema = async (
   return result.data?.oneGraph?.app?.graphQLSchema
 };
 
-export const getAuthToken = () => {
-  return ''
-  return Process.env.ONEGRAPH_ADMIN_JWT
-}
+export const upsertAppForSite = async (
+  nfToken,
+  siteId
+) => {
+  const result = await fetchOneGraph(nfToken, siteId, operationsDoc, 'UpsertAppForSiteMutation',
+    {
+      nfToken: nfToken,
+      appId: siteId,
+    },
+  );
+
+  return result.data?.oneGraph?.upsertAppForNetlifySite?.app
+};
 
 export const fetchEnabledServices = async (authToken, appId) => {
   const appSchema = await fetchAppSchema(authToken, appId)
-  return appSchema?.services
+  return appSchema?.services || []
 }
 
 const subscriptionParserName = (fn) => {

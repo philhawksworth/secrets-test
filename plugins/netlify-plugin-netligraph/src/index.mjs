@@ -1,8 +1,9 @@
 // This is the main file for the Netlify Build plugin netligraph.
 // Please read the comments to learn more about the Netlify Build plugin syntax.
 // Find more information in the Netlify documentation.
-import { extractFunctionsFromOperationDoc, fetchOneGraphSchema, generateFunctionsFile, fetchEnabledServices, readAndParseGraphQLOperationsSourceFile, readGraphQLOperationsSourceFile } from "./netligraph.mjs"
+import { extractFunctionsFromOperationDoc, fetchOneGraphSchema, generateFunctionsFile, fetchEnabledServices, readAndParseGraphQLOperationsSourceFile, readGraphQLOperationsSourceFile, upsertAppForSite } from "./netligraph.mjs"
 import fs from "fs"
+import { parse } from 'graphql'
 
 /* eslint-disable no-unused-vars */
 export default {
@@ -79,17 +80,26 @@ export default {
       const netligraphPath = `${process.cwd()}/netlify`;
       const appId = SITE_ID
       const authToken = NETLIFY_API_TOKEN
+      const oneGraphApp = upsertAppForSite(authToken, appId)
       const enabledServicesInfo = await fetchEnabledServices(authToken, appId)
       const enabledServices = enabledServicesInfo.map(service => service.service)
       const schema = await fetchOneGraphSchema(appId, enabledServices)
 
-      const [parsedDoc] = readAndParseGraphQLOperationsSourceFile(netligraphPath)
-      const appOperationsDoc = readGraphQLOperationsSourceFile(netligraphPath)
+      let appOperationsDoc = readGraphQLOperationsSourceFile(netligraphPath)
+      let [parsedDoc] = readAndParseGraphQLOperationsSourceFile(netligraphPath)
+
+      if (appOperationsDoc.trim().length === 0) {
+        appOperationsDoc = `query PlaceholderQuery {
+    __typename
+  }`
+        parsedDoc = parse(appOperationsDoc)
+      }
+
       const operations = extractFunctionsFromOperationDoc(parsedDoc)
       generateFunctionsFile(netligraphPath, schema, appOperationsDoc, operations)
     } catch (error) {
       // Report a user error
-      build.failBuild('Error message', { error })
+      build.failBuild('Error generating Netligraph client', { error })
     }
 
     // Console logs are shown in Netlify logs
