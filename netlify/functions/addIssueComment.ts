@@ -1,4 +1,4 @@
-import { withSecrets } from "@netlify/functions";
+import { withSecrets } from "@sgrove/netlify-functions";
 import { Octokit } from "@octokit/core";
 import { restEndpointMethods } from "@octokit/plugin-rest-endpoint-methods";
 
